@@ -1,0 +1,41 @@
+<%title%>
+<%= form_tag(tweets_search_path, :method => :post) do -%>
+  <%= label_tag(:q, "Search for:") %>
+  <%= text_field_tag(:q,params[:q]) %>
+  <%= label_tag(:result_type, "from category")%>
+  <%= select_tag(:result_type,options_for_select(%w{mixed popular recent},params[:result_type]))%>
+  <%= submit_tag("Go") %>
+<% end -%>
+
+<section class="search_results">
+<%if @resultset && @resultset[:success] && @resultset[:tweets].size > 0-%>
+  <ul><%= content_tag :h3, "Results"%>
+  <%for item in @resultset[:tweets]-%>
+    <li>
+      <figure>
+          <%=image_tag(item.profile_image_url)%>       
+          <blockquote><%=raw(auto_link(item.message,:html => { :target => '_blank' }))%></blockquote>
+      </figure>
+      <footer>
+          - <%=item.from_user%>
+          <p>Created at : <%=item.created_at%><br/>
+             Category : <%=item.message_type%>
+          </p>
+      </footer>
+    </li>
+  <%end-%>
+  </ul>
+  
+   <nav>
+    
+    <%=link_to_if(@resultset[:page] > 1, "Prev", tweets_search_path(:q => @resultset[:q],:max_id => @resultset[:max_id], :page=>(@resultset[:page]-1) )){}%>
+    Page <%=@resultset[:page]%> 
+    <%=link_to_if(@resultset[:next_page],"Next", tweets_search_path(:q => @resultset[:q],:max_id =>@resultset[:max_id], :page=>(@resultset[:page]+1) )){}%>
+   </nav>
+
+<%elsif @resultset && @resultset[:tweets].empty?%>
+  <h3>No Tweets :( </h3>
+<%else%>
+     <!--Search not done-->    
+<%end-%>
+</section>

@@ -1,0 +1,30 @@
+== Welcome to Twitters
+
+The objective of this project is to view public tweets.
+Tweets can be pulled from 3 categories
+1.popular
+2.recent
+3.mixed 
+
+== Specific Gems
+
+1. Devise - for authentication
+2. Nifty - for quick layout
+
+== Instructions for setup
+
+you need to set up default url options for the mailer in each environment. 
+
+Here is the configuration for config/environments/development.rb:
+config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+
+== Things to add
+
+1. Usecase testing
+2. language support
+3. user's private tweets
+4. replace nifty with sass
+5. More...
+
+
